@@ -16,6 +16,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'times8 - Your NYC Club + AI Relationship Companion',
   description: 'Join our exclusive NYC Club to build relationships and use our AI tool to find those connections you may miss otherwise!',
+  icons: {
+    // Standard favicon (can be .ico, .png, etc.)
+    icon: '/favicon.ico',
+    // Apple touch icon
+    apple: '/apple-touch-icon.png',
+  }
 };
 
 export default function RootLayout({
