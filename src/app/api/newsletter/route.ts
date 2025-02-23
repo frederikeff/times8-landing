@@ -38,18 +38,18 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: 'Times8 Newsletter <newsletter@mail.times8.ai>',
       to: email,
-      subject: 'Welcome to Times8 Newsletter',
+      subject: 'Welcome to the Times8 Newsletter',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #c026d3;">Welcome to Times8!</h1>
           <p>Thank you for subscribing to our newsletter.</p>
-          <p>You'll receive updates about:</p>
+          <p>You will receive insights & tips about:</p>
           <ul>
-            <li>Relationship building tips</li>
-            <li>AI industry insights</li>
-            <li>Exclusive events and opportunities</li>
+            <li>How to build valuable relationships and networks</li>
+            <li>How to better manage your relationships with tech and AI</li>
+            <li>Exclusive events and opportunities to network and connect</li>
           </ul>
-          <p>Best regards,<br>The Times8 Team</p>
+          <p>Best regards,<br>Your Times8 Team</p>
         </div>
       `
     });

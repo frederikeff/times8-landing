@@ -30,20 +30,24 @@ export async function POST(request: Request) {
     
     // Store in Airtable
     try {
-      const record = await base('Consulting Database').create({
-        'Name': data.name,
-        'Email': data.email,
-        'Inquiry Type': data.inquiryType || 'General Inquiry',
-        'Message': data.message,
-        'Status': 'New Inquiry',
-        'Application Date': new Date().toISOString().split('T')[0]
-      });
-
-      console.log('Created Airtable record:', record.id);
-    } catch (airtableError) {
-      console.error('Error storing in Airtable:', airtableError);
-      // Continue with email sending even if Airtable fails
-    }
+        // Log the record we're trying to create
+        const recordToCreate = {
+          'Name': data.name,
+          'Email': data.email,
+          'Inquiry Type': data.inquiryType,
+          'Message': data.message,
+          'Status': 'New Inquiry',
+          'Application Date': new Date().toISOString().split('T')[0]
+        };
+        console.log('Attempting to create record:', recordToCreate);
+  
+        const record = await base('Consulting Database').create(recordToCreate);
+        console.log('Successfully created record:', record.id);
+      } catch (airtableError) {
+        console.error('Error storing in Airtable:', airtableError);
+        // Log more details about the error
+        console.error('Full error details:', JSON.stringify(airtableError, null, 2));
+      }
     
     // Send notification email to admin
     const adminEmail = process.env.ADMIN_EMAIL;

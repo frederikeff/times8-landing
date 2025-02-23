@@ -117,7 +117,7 @@ export default function ConsultingPage() {
                     size="md" 
                     animationType="glow"
                     className="button-glow"
-                    onClick={() => window.open('https://calendly.com/your-link', '_blank')}
+                    onClick={() => window.open('https://calendar.app.google/XXKorKoNco8dRobe9', '_blank')}
                   >
                     Schedule Call
                   </AnimatedButton>

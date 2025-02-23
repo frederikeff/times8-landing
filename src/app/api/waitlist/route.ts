@@ -15,6 +15,8 @@ function formatDate(date: Date): string {
 // Type for allowed status values
 type WaitlistStatus = 'Not Started' | 'Pending Confirmation' | 'Confirmed';
 
+let waitlistCount = 4321; // Start from this number
+
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();
@@ -43,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     // Get current waitlist count
-    const allRecords = await base('Waitlist Database')
+    const countResponse = await base('Waitlist Database')
       .select({
         fields: ['Waitlist Number'],
         sort: [{ field: 'Waitlist Number', direction: 'desc' }],
@@ -51,17 +53,19 @@ export async function POST(request: Request) {
       })
       .firstPage();
 
-    const waitlistNumber = allRecords.length > 0 
-      ? (allRecords[0].get('Waitlist Number') as number || 0) + 1 
-      : 1;
+      // Set the next number
+      if (countResponse.length > 0) {
+        const lastNumber = countResponse[0].get('Waitlist Number') as number;
+        waitlistCount = Math.max(lastNumber + 1, waitlistCount);
+      }
 
     // Create new record with the correct initial status
     const record = await base('Waitlist Database').create({
-      'Email': email,
-      'Waitlist Number': waitlistNumber,
-      'Status': 'Pending Confirmation', // Using exact status from your options
-      'Join Date': formatDate(new Date())
-    });
+        'Email': email,
+        'Waitlist Number': waitlistCount,
+        'Status': 'Pending Confirmation',
+        'Join Date': new Date().toISOString().split('T')[0]
+      });
 
     // Generate confirmation token and URL
     const token = Buffer.from(`${email}:${Date.now()}`).toString('base64');
