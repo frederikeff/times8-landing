@@ -59,7 +59,7 @@ export default function ConsultingPage() {
               Relationship <span className="bg-times8-purple px-2 pb-1 transform -rotate-1 inline-block">Consulting</span>
             </h1>
             <p className="text-adaptive-secondary text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              Get personalized guidance to build and nurture meaningful professional relationships, no matter where you're located.
+              Get personalized guidance to build and nurture meaningful professional relationships, no matter where you&apos;re located.
             </p>
           </div>
         </div>

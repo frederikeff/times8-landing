@@ -25,7 +25,7 @@ export default function CheckEmailPage() {
         <h1 className="text-2xl font-bold mb-4 text-adaptive">Thanks for signing up!</h1>
         <p className="text-adaptive-secondary mb-8">
           Check your email to confirm your spot on the waitlist. 
-          Don't forget to check your spam folder!
+          Don&apos;t forget to check your spam folder!
         </p>
         
         <div className="space-y-4">

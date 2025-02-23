@@ -97,7 +97,7 @@ export default function WaitlistConfirmedPage() {
           </svg>
         </div>
         
-        <h1 className="text-2xl font-bold mb-2 text-adaptive">You're on the list!</h1>
+        <h1 className="text-2xl font-bold mb-2 text-adaptive">You are on the list!</h1>
         <p className="text-adaptive-secondary mb-6">
           Your spot in the waitlist is:
         </p>

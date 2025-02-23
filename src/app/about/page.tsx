@@ -2,7 +2,6 @@
 "use client";
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 
@@ -17,7 +16,7 @@ export default function AboutPage() {
               About <span className="bg-times8-purple px-2 pb-1 transform -rotate-1 inline-block">times8</span>
             </h1>
             <p className="text-adaptive-secondary text-lg md:text-xl max-w-2xl mx-auto">
-              We're building a new approach to relationship management, combining AI-powered tools with meaningful real-world connections.
+              We are building a new approach to relationship management, combining AI-powered tools with meaningful real-world connections.
             </p>
           </div>
         </div>
@@ -31,7 +30,7 @@ export default function AboutPage() {
             
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-adaptive-secondary mb-4">
-                Times8 was born from a simple but powerful frustration: relationship management tools just aren't built for the modern world.
+                Times8 was born from a simple but powerful frustration: relationship management tools just are not built for the modern world.
               </p>
               
               <p className="text-adaptive-secondary mb-4">
@@ -39,7 +38,7 @@ export default function AboutPage() {
               </p>
               
               <p className="text-adaptive-secondary mb-4">
-                From Salesforce and Microsoft Dynamics to HubSpot, these tools were designed for different times and different needs. As she transitioned to entrepreneurship and community building, she realized this wasn't just a corporate problem—it affected solopreneurs, small businesses, community leaders, and individuals trying to manage their professional relationships.
+                From Salesforce and Microsoft Dynamics to HubSpot, these tools were designed for different times and different needs. As she transitioned to entrepreneurship and community building, she realized this was not just a corporate problem—it affected solopreneurs, small businesses, community leaders, and individuals trying to manage their professional relationships.
               </p>
               
               <p className="text-adaptive-secondary mb-4">
@@ -76,11 +75,11 @@ export default function AboutPage() {
               </p>
               
               <p className="text-adaptive-secondary mb-4">
-                With Times8 AI, we're creating a system that not only organizes your contacts but understands the nuanced web of relationships and provides actionable insights to strengthen your network.
+                With Times8 AI, we are creating a system that not only organizes your contacts but understands the nuanced web of relationships and provides actionable insights to strengthen your network.
               </p>
               
               <p className="text-adaptive-secondary">
-                Through Times8 Club NYC, we're fostering a community where innovation thrives through meaningful personal connections, proving that in our digital age, in-person relationships remain irreplaceable.
+                Through Times8 Club NYC, we are fostering a community where innovation thrives through meaningful personal connections, proving that in our digital age, in-person relationships remain irreplaceable.
               </p>
             </div>
           </div>
@@ -125,7 +124,7 @@ export default function AboutPage() {
               </p>
               
               <p className="text-adaptive-secondary">
-                United by our frustration with existing tools and our vision for what relationship management could be, we're building Times8 to be the solution we have always wanted for ourselves.
+                United by our frustration with existing tools and our vision for what relationship management could be, we are building Times8 to be the solution we have always wanted for ourselves.
               </p>
             </div>
           </div>
@@ -138,7 +137,7 @@ export default function AboutPage() {
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6 text-adaptive">Join Us on This Journey</h2>
             <p className="text-adaptive-secondary text-lg mb-8">
-              Whether you're looking to streamline your relationship management with AI or connect with like-minded innovators in NYC, we'd love to have you be part of the times8 community.
+              Whether you are looking to streamline your relationship management with AI or connect with like-minded innovators in NYC, we love to have you be part of the times8 community.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -173,7 +172,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6 text-adaptive">Get in Touch</h2>
             <p className="text-adaptive-secondary text-lg mb-8">
-              Have questions about Times8? Interested in partnering with us? We'd love to hear from you.
+              Have questions about Times8? Interested in partnering with us? We love to hear from you.
             </p>
             
             <Link href="/consulting">
