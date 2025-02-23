@@ -1,125 +1,89 @@
 // src/app/api/club-application/route.ts
 import { NextResponse } from 'next/server';
+import Airtable from 'airtable';
 import { Resend } from 'resend';
-import { Client } from '@notionhq/client';
 
-// Define TypeScript interfaces for Notion properties
-interface NotionClubProperties {
-  'Name': {
-    title: Array<{ text: { content: string } }>;
-  };
-  'Email': {
-    email: string;
-  };
-  'LinkedIn': {
-    url: string | null;
-  };
-  'Other Profiles': {
-    rich_text: Array<{ text: { content: string } }>;
-  };
-  'Goals': {
-    rich_text: Array<{ text: { content: string } }>;
-  };
-  'Contribution': {
-    rich_text: Array<{ text: { content: string } }>;
-  };
-  'Identities': {
-    multi_select: Array<{ name: string }>;
-  };
-  'Other Identity': {
-    rich_text: Array<{ text: { content: string } }>;
-  };
-  'Industry': {
-    select: { name: string };
-  };
-  'Interests': {
-    multi_select: Array<{ name: string }>;
-  };
-  'Status': {
-    select: { name: string };
-  };
-  'Application Date': {
-    date: { start: string };
-  };
-}
-
-// Initialize Resend
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
+  .base(process.env.AIRTABLE_BASE_ID!);
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Initialize Notion
-const notion = new Client({
-  auth: process.env.NOTION_API_KEY
-});
+interface ApplicationData {
+  fullName: string;           // Changed from name
+  email: string;
+  linkedinProfile: string;    // Changed from url
+  otherProfiles: string;
+  goals: string;
+  contribution: string;
+  identities: string[];
+  otherIdentity: string;
+  industry: string;
+  interests: string[];
+}
 
 export async function POST(request: Request) {
   try {
+    // Log the incoming request body
     const data = await request.json();
-    
-    // Validate email format 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!data.email || !emailRegex.test(data.email)) {
-      return NextResponse.json(
-        { success: false, error: 'Please provide a valid email address' },
-        { status: 400 }
-      );
+    console.log('Received data:', data);
+
+    // Validate required fields
+    if (!data.fullName || typeof data.fullName !== 'string' || !data.fullName.trim()) {
+      return NextResponse.json({
+        success: false,
+        errors: ['Full name is required']
+      }, { status: 400 });
     }
-    
-    // Safely handle arrays by ensuring they exist and are arrays
-    const identities = Array.isArray(data.identities) ? data.identities : [];
-    const interests = Array.isArray(data.interests) ? data.interests : [];
-    
-    // Create safe multi-select objects
-    const identitiesMultiSelect = identities.map((identityVal: string) => ({
-      name: String(identityVal)
-    }));
-    
-    const interestsMultiSelect = interests.map((interestVal: string) => ({
-      name: String(interestVal)
-    }));
-    
-    // Store in Notion
-    await notion.pages.create({
-      parent: { database_id: process.env.NOTION_CLUB_DATABASE_ID! },
-      properties: {
-        Name: {
-          title: [{ text: { content: data.fullName || "Anonymous" } }]
-        },
-        Email: {
-          email: data.email
-        },
-        LinkedIn: {
-          url: data.linkedinProfile || null
-        },
-        "Other Profiles": {
-          rich_text: [{ text: { content: data.otherProfiles || "" } }]
-        },
-        Goals: {
-          rich_text: [{ text: { content: data.goals || "" } }]
-        },
-        Contribution: {
-          rich_text: [{ text: { content: data.contribution || "" } }]
-        },
-        Identities: {
-          multi_select: identitiesMultiSelect
-        },
-        "Other Identity": {
-          rich_text: [{ text: { content: data.otherIdentity || "" } }]
-        },
-        Industry: {
-          select: { name: data.industry || "Other" }
-        },
-        Interests: {
-          multi_select: interestsMultiSelect
-        },
-        Status: {
-          select: { name: "New Application" }
-        },
-        "Application Date": {
-          date: { start: new Date().toISOString() }
-        }
-      } as Partial<NotionClubProperties>
+
+    if (!data.email || typeof data.email !== 'string' || !data.email.includes('@')) {
+      return NextResponse.json({
+        success: false,
+        errors: ['Valid email is required']
+      }, { status: 400 });
+    }
+
+    // Validate URL if provided
+    if (data.linkedinProfile && typeof data.linkedinProfile === 'string') {
+      try {
+        new URL(data.linkedinProfile);
+      } catch (e) {
+        return NextResponse.json({
+          success: false,
+          errors: ['Invalid LinkedIn URL format']
+        }, { status: 400 });
+      }
+    }
+
+    // Validate arrays
+    if (!Array.isArray(data.identities) || data.identities.length === 0) {
+      return NextResponse.json({
+        success: false,
+        errors: ['At least one identity must be selected']
+      }, { status: 400 });
+    }
+
+    if (!Array.isArray(data.interests) || data.interests.length === 0) {
+      return NextResponse.json({
+        success: false,
+        errors: ['At least one interest must be selected']
+      }, { status: 400 });
+    }
+
+    // Create record in Airtable
+    const record = await base('Club Database').create({
+      'Name': data.fullName.trim(),
+      'Email': data.email.trim(),
+      'Linkedin': data.linkedinProfile || '',
+      'Other Profiles': data.otherProfiles || '',
+      'Goals': data.goals || '',
+      'Contribution': data.contribution || '',
+      'Identities': data.identities,
+      'Other Identities': data.otherIdentity || '',
+      'Industry': data.industry || '',
+      'Interests': data.interests,
+      'Status': 'New Application',
+      'Application Date': new Date().toISOString().split('T')[0]
     });
-    
+
     // Send confirmation email
     await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Times8 Club <onboarding@resend.dev>',
@@ -127,51 +91,48 @@ export async function POST(request: Request) {
       subject: 'Your Times8 Club Application',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #c026d3;">Thank you for your application, ${data.fullName || "there"}!</h1>
-          <p>We will review your application and come back to you within 48 hours.</p>
-          <p>In the meantime, please have a look at our <a href="https://times8.ai/relationship-guide" style="color: #c026d3;">Relationship Guide for NYC</a>.</p>
-          <hr style="border: 1px solid #eee; margin: 20px 0;" />
-          <p style="color: #666; font-size: 12px;">Times8 Club NYC</p>
+          <h1 style="color: #c026d3;">Thank you for your application, ${data.fullName}!</h1>
+          <p>We've received your application to join Times8 Club and we'll review it shortly.</p>
+          <p>We aim to respond to all applications within 48 hours.</p>
         </div>
-      `,
+      `
     });
-    
-    // Notify admin
-    const adminEmail = process.env.ADMIN_EMAIL;
-    if (adminEmail) {
-      try {
-        await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL || 'Times8 Club <onboarding@resend.dev>',
-          to: adminEmail,
-          subject: 'New Times8 Club Application',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h1 style="color: #c026d3;">New Club Application</h1>
-              <p><strong>Name:</strong> ${data.fullName || "Not provided"}</p>
-              <p><strong>Email:</strong> ${data.email}</p>
-              <p><strong>LinkedIn:</strong> ${data.linkedinProfile || 'Not provided'}</p>
-              <p><strong>Other Profiles:</strong> ${data.otherProfiles || 'Not provided'}</p>
-              <p><strong>Goals:</strong> ${data.goals || 'Not provided'}</p>
-              <p><strong>Contribution:</strong> ${data.contribution || 'Not provided'}</p>
-              <p><strong>Identities:</strong> ${identities.join(', ') || 'Not specified'}</p>
-              <p><strong>Other Identity:</strong> ${data.otherIdentity || 'Not provided'}</p>
-              <p><strong>Industry:</strong> ${data.industry || 'Not provided'}</p>
-              <p><strong>Interests:</strong> ${interests.join(', ') || 'Not specified'}</p>
-            </div>
-          `,
-        });
-      } catch (error) {
-        console.error('Error sending admin notification:', error);
-        // Continue even if admin email fails
-      }
+
+    // Send notification to admin
+    if (process.env.ADMIN_EMAIL) {
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || 'Times8 Club <onboarding@resend.dev>',
+        to: process.env.ADMIN_EMAIL,
+        subject: 'New Times8 Club Application',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #c026d3;">New Club Application</h1>
+            <p><strong>Name:</strong> ${data.fullName}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Industry:</strong> ${data.industry}</p>
+            <p><strong>Goals:</strong> ${data.goals || 'Not provided'}</p>
+            <p><strong>Contribution:</strong> ${data.contribution || 'Not provided'}</p>
+            <p><strong>Identities:</strong> ${data.identities.join(', ')}</p>
+            <p><strong>Interests:</strong> ${data.interests.join(', ')}</p>
+            ${data.linkedinProfile ? `<p><strong>LinkedIn:</strong> <a href="${data.linkedinProfile}">${data.linkedinProfile}</a></p>` : ''}
+            ${data.otherProfiles ? `<p><strong>Other Profiles:</strong> ${data.otherProfiles}</p>` : ''}
+          </div>
+        `
+      });
     }
-    
-    return NextResponse.json({ success: true });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Application submitted successfully',
+      recordId: record.id
+    });
+
   } catch (error) {
-    console.error('Application submission error:', error);
-    return NextResponse.json(
-      { success: false, message: 'Server error' }, 
-      { status: 500 }
-    );
+    console.error('Club application error:', error);
+    return NextResponse.json({
+      success: false,
+      message: 'Server error',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }

@@ -1,14 +1,16 @@
 // src/app/api/consulting/route.ts
 import { NextResponse } from 'next/server';
+import Airtable from 'airtable';
 import { Resend } from 'resend';
-import { Client } from '@notionhq/client';
 
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
+  .base(process.env.AIRTABLE_BASE_ID!);
 const resend = new Resend(process.env.RESEND_API_KEY);
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+    console.log('Received consulting inquiry:', data);
     
     // Validate required fields
     if (!data.email || !data.name || !data.message) {
@@ -26,34 +28,21 @@ export async function POST(request: Request) {
       );
     }
     
-    // Store in Notion
+    // Store in Airtable
     try {
-      await notion.pages.create({
-        parent: { database_id: process.env.NOTION_CONSULTING_DATABASE_ID! },
-        properties: {
-          Name: {
-            title: [{ text: { content: data.name || "" } }]
-          },
-          Email: {
-            email: data.email
-          },
-          "Inquiry Type": {
-            select: { name: data.inquiryType || "General Inquiry" }
-          },
-          Message: {
-            rich_text: [{ text: { content: data.message || "" } }]
-          },
-          Status: {
-            select: { name: "New Inquiry" }
-          },
-          "Submitted On": {
-            date: { start: new Date().toISOString() }
-          }
-        }
+      const record = await base('Consulting Database').create({
+        'Name': data.name,
+        'Email': data.email,
+        'Inquiry Type': data.inquiryType || 'General Inquiry',
+        'Message': data.message,
+        'Status': 'New Inquiry',
+        'Application Date': new Date().toISOString().split('T')[0]
       });
-    } catch (notionError) {
-      console.error('Error storing in Notion:', notionError);
-      // Continue with email sending even if Notion fails
+
+      console.log('Created Airtable record:', record.id);
+    } catch (airtableError) {
+      console.error('Error storing in Airtable:', airtableError);
+      // Continue with email sending even if Airtable fails
     }
     
     // Send notification email to admin
@@ -78,7 +67,6 @@ export async function POST(request: Request) {
         });
       } catch (error) {
         console.error('Error sending admin notification:', error);
-        // Continue even if admin email fails
       }
     }
     
@@ -98,7 +86,6 @@ export async function POST(request: Request) {
       });
     } catch (error) {
       console.error('Error sending confirmation email:', error);
-      // Continue even if confirmation email fails
     }
     
     return NextResponse.json({ success: true });

@@ -10,7 +10,7 @@ export default function WaitlistConfirmedPage({
 }: { 
   searchParams: { number?: string } 
 }) {
-  const waitlistNumber = searchParams.number || '124535';
+  const waitlistNumber = searchParams.number || '4321';
   
   return (
     <div className="min-h-screen flex items-center justify-center">

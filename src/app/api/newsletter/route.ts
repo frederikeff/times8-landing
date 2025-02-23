@@ -1,47 +1,65 @@
 // src/app/api/newsletter/route.ts
 import { NextResponse } from 'next/server';
+import Airtable from 'airtable';
+import { Resend } from 'resend';
+
+const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
+  .base(process.env.AIRTABLE_BASE_ID!);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
-    const { email } = data;
-    
-    const CONVERTKIT_API_KEY = process.env.CONVERTKIT_API_KEY;
-    const CONVERTKIT_FORM_ID = process.env.CONVERTKIT_FORM_ID;
-    
-    if (!CONVERTKIT_API_KEY || !CONVERTKIT_FORM_ID) {
-      return NextResponse.json(
-        { success: false, message: 'Server configuration error' }, 
-        { status: 500 }
-      );
+    const { email } = await request.json();
+
+    // Check if subscriber exists
+    const existingRecords = await base('Newsletter Subscribers')
+      .select({
+        filterByFormula: `{Email} = '${email}'`,
+        maxRecords: 1
+      })
+      .firstPage();
+
+    if (existingRecords.length > 0) {
+      return NextResponse.json({
+        success: false,
+        message: 'Already subscribed'
+      });
     }
-    
-    const response = await fetch(`https://api.convertkit.com/v3/forms/${CONVERTKIT_FORM_ID}/subscribe`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        api_key: CONVERTKIT_API_KEY,
-        email: email,
-      }),
+
+    // Add to Airtable
+    const record = await base('Newsletter Subscribers').create({
+      'Email': email,
+      'Status': 'Active',
+      'Subscribed On': new Date().toISOString().split('T')[0],
+      'Source': 'Website'
     });
-    
-    const responseData = await response.json();
-    
-    if (response.ok) {
-      return NextResponse.json({ success: true });
-    } else {
-      return NextResponse.json(
-        { success: false, message: responseData.message || 'Subscription failed' }, 
-        { status: 400 }
-      );
-    }
+
+    // Send welcome email
+    await resend.emails.send({
+      from: 'Times8 Newsletter <newsletter@mail.times8.ai>',
+      to: email,
+      subject: 'Welcome to Times8 Newsletter',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #c026d3;">Welcome to Times8!</h1>
+          <p>Thank you for subscribing to our newsletter.</p>
+          <p>You'll receive updates about:</p>
+          <ul>
+            <li>Relationship building tips</li>
+            <li>AI industry insights</li>
+            <li>Exclusive events and opportunities</li>
+          </ul>
+          <p>Best regards,<br>The Times8 Team</p>
+        </div>
+      `
+    });
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Newsletter API error:', error);
-    return NextResponse.json(
-      { success: false, message: 'Server error' }, 
-      { status: 500 }
-    );
+    console.error('Newsletter error:', error);
+    return NextResponse.json({
+      success: false,
+      message: 'Server error'
+    }, { status: 500 });
   }
 }
