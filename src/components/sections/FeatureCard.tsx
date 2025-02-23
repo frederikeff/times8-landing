@@ -16,20 +16,28 @@ const getIcon = (title: string) => {
     } else if (title.includes("AI")) {
       return (
         <svg className="w-24 h-24 text-times8-purple/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
-            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-            d="M9.5 9.5c0 .5.2.8.5 1 .3.2.7.2 1 0 .3-.2.5-.5.5-1s-.2-.8-.5-1c-.3-.2-.7-.2-1 0-.3.2-.5.5-.5 1zM14.5 9.5c0 .5.2.8.5 1 .3.2.7.2 1 0 .3-.2.5-.5.5-1s-.2-.8-.5-1c-.3-.2-.7-.2-1 0-.3.2-.5.5-.5 1z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
+
       );
     } else if (title.includes("Consulting")) {
       return (
         <svg className="w-24 h-24 text-times8-purple/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
-            d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2m4 0h4M8 12h8m-8 4h6" />
+            d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h3a1 1 0 001-1V4z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
+            d="M7 13h10M7 17h4m-4-8h10" />
         </svg>
       );
     }
+    // Add a default return to ensure we always show something
+    return (
+        <svg className="w-24 h-24 text-times8-purple/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
+          d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>  
+    );
   }
   
   interface FeatureCardProps {
