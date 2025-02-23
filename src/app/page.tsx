@@ -194,7 +194,7 @@ export default function Home() {
               Stay Connected
             </h2>
             <p className="text-lg mb-8 text-gray-700 dark:text-white/80">
-              Subscribe to our newsletter for the latest events, AI features, and relationship-building tips.
+              Subscribe to our newsletter for the latest events, product and AI features, and relationship building tips.
             </p>
             <NewsletterSignup />
           </div>

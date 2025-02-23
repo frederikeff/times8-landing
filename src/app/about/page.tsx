@@ -121,11 +121,11 @@ export default function AboutPage() {
               </div>
               
               <p className="text-adaptive-secondary mb-4">
-                Our engineering team comprises experts in AI, machine learning, and natural language processing, while our product specialists bring years of experience from leading technology companies around the world.
+                Our engineering team comprises of experts in AI, machine learning, and natural language processing, while our product specialists bring years of experience from leading technology companies around the world.
               </p>
               
               <p className="text-adaptive-secondary">
-                United by our frustration with existing tools and our vision for what relationship management could be, we're building Times8 to be the solution we've always wanted ourselves.
+                United by our frustration with existing tools and our vision for what relationship management could be, we're building Times8 to be the solution we have always wanted for ourselves.
               </p>
             </div>
           </div>
