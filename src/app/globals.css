@@ -168,7 +168,7 @@ textarea {
          rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple
          text-gray-900 dark:text-white 
          placeholder-gray-500 dark:placeholder-white/60
-         w-full transition-all duration-200;
+         transition-all duration-200;
 }
 
 /* Light mode specific enhancements */
