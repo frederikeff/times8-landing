@@ -157,16 +157,15 @@ export default function ConsultingPage() {
                         name="inquiryType"
                         value={formData.inquiryType}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white/10 dark:bg-white/10 border border-white/20 dark:border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple text-adaptive appearance-none"
                         required
                     >
                         <option value="" disabled>Select an inquiry type</option>
-                        <option value="Club Membership" className="bg-zinc-900">Club Membership</option>
-                        <option value="AI Product Inquiry" className="bg-zinc-900">AI Product Inquiry</option>
-                        <option value="Consulting Inquiry" className="bg-zinc-900">Consulting Inquiry</option>
-                        <option value="Partnership Inquiry" className="bg-zinc-900">Partnership Inquiry</option>
-                        <option value="Speaking Inquiry" className="bg-zinc-900">Speaking Inquiry</option>
-                        <option value="Other" className="bg-zinc-900">Other</option>
+                        <option value="Club Membership">Club Membership</option>
+                        <option value="AI Product Inquiry">AI Product Inquiry</option>
+                        <option value="Consulting Inquiry">Consulting Inquiry</option>
+                        <option value="Partnership Inquiry">Partnership Inquiry</option>
+                        <option value="Speaking Inquiry">Speaking Inquiry</option>
+                        <option value="Other">Other</option>
                     </select>
                   </div>
                   

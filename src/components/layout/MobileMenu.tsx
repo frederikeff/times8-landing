@@ -45,18 +45,20 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     <div className="fixed inset-0 z-50 lg:hidden">
       {/* Overlay backdrop */}
       <div 
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+        className="fixed inset-0 bg-gray-500/50 dark:bg-black/50 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
         aria-hidden="true"
       />
       
       {/* Slide-out panel */}
       <div 
-        className={`fixed inset-y-0 right-0 w-full max-w-xs glass-dark shadow-xl 
-                  transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed inset-y-0 right-0 w-full max-w-xs
+              bg-white dark:glass-dark shadow-xl 
+              transform transition-transform duration-300 ease-in-out 
+              ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex flex-col h-full overflow-y-auto">
-          <div className="flex items-center justify-between px-4 pt-5 pb-2">
+          <div className="flex items-center justify-between px-4 pt-5 pb-2 border-b border-gray-200 dark:border-white/10">
             <div className="flex items-center">
             <Logo />
             </div>
@@ -80,9 +82,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           </div>
           
           {/* Dark mode toggle in mobile menu */}
-          <div className="px-4 pt-2 pb-4 border-b border-white/10">
+          <div className="px-4 pt-2 pb-4 border-b border-gray-200 dark:border-white/10">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-white/70">Appearance</span>
+              <span className="text-sm text-gray-600 dark:text-white/70">Appearance</span>
               <button
                 onClick={toggleDarkMode}
                 className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
@@ -119,7 +121,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                   className={`-m-3 p-3 flex items-center rounded-md text-base font-medium transition duration-150 ease-in-out
                             ${pathname === link.href 
                               ? 'bg-times8-purple/10 text-times8-purple' 
-                              : 'text-white hover:bg-white/5'
+                              : 'text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5'
                             }`}
                   onClick={onClose}
                 >

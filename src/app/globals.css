@@ -75,11 +75,13 @@ body {
 
 /* Glass effects */
 .glass {
-  @apply bg-white/10 backdrop-blur-md backdrop-saturate-150 border border-white/20;
+  @apply bg-white/80 dark:bg-white/10 backdrop-blur-md backdrop-saturate-150 
+         border border-gray-200/50 dark:border-white/20 transition-colors duration-200;
 }
 
 .glass-dark {
-  @apply bg-black/40 backdrop-blur-md backdrop-saturate-150 border border-white/10;
+  @apply bg-white/90 dark:bg-black/40 backdrop-blur-md backdrop-saturate-150 
+         border border-gray-200/50 dark:border-white/10 transition-colors duration-200;
 }
 
 /* Seamless section spacing */
@@ -119,6 +121,11 @@ body {
 
 .button-glow:hover {
   @apply shadow-glow-purple transform -translate-y-0.5;
+  box-shadow: 0 0 20px rgba(192, 38, 211, 0.3);
+}
+
+.dark .button-glow:hover {
+  box-shadow: 0 0 30px rgba(192, 38, 211, 0.5);
 }
 
 .button-glow:active {
@@ -133,4 +140,97 @@ body {
 /* Adaptive hover backgrounds */
 .hover-bg-adaptive {
   @apply hover:bg-gray-100 dark:hover:bg-white/10;
+}
+
+.form-input {
+  @apply px-4 py-3 
+         bg-gray-50 dark:bg-white/10 
+         border border-gray-200 dark:border-white/20 
+         rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple
+         text-gray-900 dark:text-white 
+         placeholder-gray-500 dark:placeholder-white/60
+         w-full transition-colors duration-200
+         hover:border-times8-purple/50;
+}
+
+.light .form-input {
+  @apply shadow-sm hover:shadow-md transition-shadow duration-200;
+}
+
+/* Base input styles */
+input[type="email"],
+input[type="text"],
+input[type="password"],
+textarea {
+  @apply px-4 py-3 
+         bg-gray-100 dark:bg-white/10 
+         border border-gray-200 dark:border-white/20 
+         rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple
+         text-gray-900 dark:text-white 
+         placeholder-gray-500 dark:placeholder-white/60
+         transition-all duration-200;
+}
+
+/* Light mode specific enhancements */
+.light input[type="email"],
+.light input[type="text"],
+.light input[type="password"],
+.light textarea {
+  background-color: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+/* Hover states */
+input[type="email"]:hover,
+input[type="text"]:hover,
+input[type="password"]:hover,
+textarea:hover {
+  @apply border-times8-purple/50;
+}
+
+/* Focus states */
+input[type="email"]:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  @apply ring-2 ring-times8-purple ring-opacity-50 border-times8-purple;
+  background-color: white;
+}
+
+/* Base select styling */
+select {
+  @apply px-4 py-3 
+         bg-gray-100 dark:bg-white/10 
+         border border-gray-200 dark:border-white/20 
+         rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple
+         text-gray-900 dark:text-white 
+         transition-all duration-200;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Option styling */
+select option {
+  @apply bg-gray-50 dark:bg-zinc-900 
+         text-gray-900 dark:text-white
+         py-2;
+}
+
+/* Hover state for options */
+select option:hover,
+select option:focus,
+select option:active,
+select option:checked {
+  @apply bg-times8-purple/10 text-times8-purple;
+}
+
+/* When the select is opened (focus state) */
+select:focus {
+  @apply ring-2 ring-times8-purple ring-opacity-50 border-times8-purple;
 }

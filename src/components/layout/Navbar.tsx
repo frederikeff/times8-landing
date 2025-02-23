@@ -45,6 +45,19 @@ const Navbar: React.FC = () => {
     localStorage.setItem('darkMode', darkMode.toString());
   }, [darkMode]);
 
+  // First useEffect for dark mode
+  useEffect(() => {
+    // Check for saved preference, default to dark if none exists
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === null) {
+      setDarkMode(true);
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      setDarkMode(savedMode === 'true');
+    }
+  }, []);
+
+
   // Listen for scroll events to update navbar
   useEffect(() => {
     const handleScroll = () => {
@@ -92,7 +105,7 @@ const Navbar: React.FC = () => {
                   className={`text-sm font-medium transition-colors duration-200 ${
                     pathname === link.href 
                       ? 'text-times8-purple' 
-                      : 'text-white/80 hover:text-white hover:text-times8-purple'
+                      : 'text-gray-700 dark:text-white/80 hover:text-times8-purple'
                   }`}
                 >
                   {link.name}
@@ -105,7 +118,7 @@ const Navbar: React.FC = () => {
               {/* Dark mode toggle */}
               <button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-full text-gray-700 dark:text-white/70 hover:text-times8-purple dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
                 aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 {darkMode ? (
@@ -129,7 +142,7 @@ const Navbar: React.FC = () => {
               {/* Mobile menu button */}
               <button
                 type="button"
-                className="md:hidden p-2 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="md:hidden p-2 rounded-md text-gray-700 dark:text-white/70 hover:text-times8-purple dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 transition-all duration-300"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 <span className="sr-only">Open main menu</span>
