@@ -86,7 +86,7 @@ export async function POST(request: Request) {
 
     // Send confirmation email
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Times8 Club <onboarding@resend.dev>',
+      from: process.env.RESEND_FROM_EMAIL || 'Times8 Club <waitlist@mail.times8.ai>',
       to: data.email,
       subject: 'Your Times8 Club Application',
       html: `

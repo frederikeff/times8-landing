@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     if (adminEmail) {
       try {
         await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL || 'Times8 Consulting <onboarding@resend.dev>',
+          from: process.env.RESEND_FROM_EMAIL || 'Times8 Consulting <consulting@mail.times8.ai>',
           to: adminEmail,
           subject: `New Times8 ${data.inquiryType || 'Consulting'} Inquiry`,
           html: `

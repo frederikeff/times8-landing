@@ -5,37 +5,40 @@ import React, { useState } from 'react';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 
 export default function AIPage() {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
+    const [email, setEmail] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+  
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!email) return;
       
-      if (response.ok) {
-        setSubmitStatus('success');
-        setEmail('');
-      } else {
-        setSubmitStatus('error');
+      setIsSubmitting(true);
+      setError(null);
+      
+      try {
+        const response = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.redirect) {
+          // Use window.location for full page navigation
+          window.location.href = data.redirect;
+        } else {
+          setError(data.message || "Something went wrong. Please try again.");
+        }
+      } catch (error) {
+        setError("Failed to join waitlist. Please try again.");
+      } finally {
+        setIsSubmitting(false);
       }
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    };
 
   return (
     <>
@@ -69,19 +72,12 @@ export default function AIPage() {
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </AnimatedButton>
+
+              {error && (
+                <p className="text-red-500 mt-4">{error}</p>
+              )}
+
             </form>
-            
-            {submitStatus === 'success' && (
-              <p className="text-green-500 mt-4">
-                Thanks for joining! We'll notify you when early access is available.
-              </p>
-            )}
-            
-            {submitStatus === 'error' && (
-              <p className="text-red-500 mt-4">
-                Something went wrong. Please try again.
-              </p>
-            )}
           </div>
         </div>
       </section>
@@ -236,18 +232,11 @@ export default function AIPage() {
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </AnimatedButton>
-              
-              {submitStatus === 'success' && (
-                <p className="text-green-500 mt-4">
-                  Thanks for joining! We'll notify you when early access is available.
-                </p>
+
+              {error && (
+                <p className="text-red-500 mt-4">{error}</p>
               )}
               
-              {submitStatus === 'error' && (
-                <p className="text-red-500 mt-4">
-                  Something went wrong. Please try again.
-                </p>
-              )}
             </form>
           </div>
         </div>
