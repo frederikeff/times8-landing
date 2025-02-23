@@ -26,35 +26,37 @@ export async function POST(request: Request) {
       });
     }
 
-    // Add to Airtable
+    // Add to Airtable with Pending status
     const record = await base('Newsletter Subscribers').create({
       'Email': email,
-      'Status': 'Active',
+      'Status': 'Pending Confirmation',
       'Subscribed On': new Date().toISOString().split('T')[0],
       'Source': 'Website'
     });
 
-    // Send welcome email
+    // Generate confirmation token
+    const token = Buffer.from(`${email}:${Date.now()}`).toString('base64');
+    const confirmUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/newsletter/confirmed?token=${token}`;
+
+    // Send confirmation email
     await resend.emails.send({
       from: 'Times8 Newsletter <newsletter@mail.times8.ai>',
       to: email,
-      subject: 'Welcome to the Times8 Newsletter',
+      subject: 'Confirm your Times8 Newsletter Subscription',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #c026d3;">Welcome to Times8!</h1>
-          <p>Thank you for subscribing to our newsletter.</p>
-          <p>You will receive insights & tips about:</p>
-          <ul>
-            <li>How to build valuable relationships and networks</li>
-            <li>How to better manage your relationships with tech and AI</li>
-            <li>Exclusive events and opportunities to network and connect</li>
-          </ul>
-          <p>Best regards,<br>Your Times8 Team</p>
+          <h1 style="color: #c026d3;">Confirm your Newsletter Subscription</h1>
+          <p>You're almost there! Click the button below to confirm your Times8 newsletter subscription.</p>
+          <a href="${confirmUrl}" style="display: inline-block; background-color: #c026d3; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-top: 20px;">Confirm Subscription</a>
+          <p style="margin-top: 30px; color: #666;">If you didn't request to subscribe to our newsletter, you can ignore this email.</p>
         </div>
       `
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      redirect: '/newsletter/check-email'
+    });
   } catch (error) {
     console.error('Newsletter error:', error);
     return NextResponse.json({

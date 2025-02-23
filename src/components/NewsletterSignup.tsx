@@ -1,4 +1,3 @@
-// src/components/NewsletterSignup.tsx
 "use client";
 
 import React, { useState } from 'react';
@@ -28,9 +27,13 @@ const NewsletterSignup: React.FC = () => {
       const data = await response.json();
       
       if (data.success) {
-        setStatus('success');
-        setMessage('Thanks for subscribing!');
-        setEmail('');
+        if (data.redirect) {
+          window.location.href = data.redirect;
+        } else {
+          setStatus('success');
+          setMessage('Thanks! Please check your email to confirm your subscription.');
+          setEmail('');
+        }
       } else {
         setStatus('error');
         setMessage(data.message || 'Something went wrong. Please try again.');
