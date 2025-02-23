@@ -15,7 +15,7 @@ const featureCards = [
     description: "Join our innovative NYC Club and experience curated dinners, diverse mixers, and personalized network recommendations.",
     buttonText: "Join the Club",
     buttonLink: "/club",
-    imageSrc: "/club-image.jpg",
+    imageSrc: "/club-image.png",
     imageAlt: "NYC Club"
   },
   {
@@ -23,7 +23,7 @@ const featureCards = [
     description: "Get access and find hidden connections. Improve your network and strengthen your relationships with our AI enhanced product.",
     buttonText: "Join Waitlist",
     buttonLink: "/ai",
-    imageSrc: "/ai-tool.jpg",
+    imageSrc: "/ai-tool.png",
     imageAlt: "AI Assistant",
     featured: true
   },
@@ -32,7 +32,7 @@ const featureCards = [
     description: "You are not able to profit from our club offerings? Still need extra personalized support? Then this is for you.",
     buttonText: "Contact Us",
     buttonLink: "/consulting",
-    imageSrc: "/consulting.jpg",
+    imageSrc: "/consulting.png",
     imageAlt: "Consulting"
   }
 ];
@@ -42,19 +42,22 @@ const testimonials = [
   {
     name: "Sarah Johnson",
     role: "UX Designer",
-    quote: "The times8 club events completely transformed my professional network. I've made meaningful connections that led to collaborations I never thought possible."
+    quote: "The times8 club events completely transformed my professional network. I've made meaningful connections that led to collaborations I never thought possible.",
+    variant: 'circle'
   },
   {
     name: "David Chen",
     role: "Startup Founder",
-    quote: "The AI relationship manager helped me discover connections I didn't know I had. I found my co-founder through a third-degree connection the AI uncovered."
+    quote: "The AI relationship manager helped me discover connections I didn't know I had. I found my co-founder through a third-degree connection the AI uncovered.",
+    variant: 'square'
   },
   {
     name: "Amara Patel",
     role: "Marketing Director",
-    quote: "Even though I'm not in NYC, the consulting service provided invaluable guidance on building my professional network strategically."
+    quote: "Even though I'm not in NYC, the consulting service provided invaluable guidance on building my professional network strategically.",
+    variant: 'triangle'
   }
-];
+] as const;
 
 // Data for FAQ questions
 const faqQuestions = [
@@ -113,7 +116,11 @@ export default function Home() {
           {/* Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
             {featureCards.map((card, index) => (
-              <FeatureCard key={index} {...card} />
+              <div key={index} className="flex flex-col h-full">
+                <div className="flex-grow">
+                  <FeatureCard {...card} />
+                </div>
+              </div>
             ))}
           </div>
         </div>

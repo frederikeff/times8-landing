@@ -59,7 +59,6 @@ export default function AIPage() {
                 placeholder="Your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="px-4 py-3 bg-white/10 border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple text-adaptive w-full"
                 required
               />
               <AnimatedButton

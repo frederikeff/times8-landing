@@ -52,10 +52,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       
       {/* Slide-out panel */}
       <div 
-        className={`fixed inset-y-0 right-0 w-full max-w-xs
-              bg-white dark:glass-dark shadow-xl 
-              transform transition-transform duration-300 ease-in-out 
-              ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`fixed inset-y-0 right-0 w-full max-w-xs 
+            bg-gray-50 dark:bg-zinc-900 
+            shadow-xl border-l border-gray-200 dark:border-white/10
+            transform transition-transform duration-300 ease-in-out 
+            ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="flex flex-col h-full overflow-y-auto">
           <div className="flex items-center justify-between px-4 pt-5 pb-2 border-b border-gray-200 dark:border-white/10">
@@ -87,7 +88,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <span className="text-sm text-gray-600 dark:text-white/70">Appearance</span>
               <button
                 onClick={toggleDarkMode}
-                className="p-2 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
+                className="p-2 rounded-lg bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-white/70 
+                hover:bg-gray-200 dark:hover:bg-white/20 transition-all duration-300"
                 aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               >
                 <div className="flex items-center">

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/link';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 
 export default function AboutPage() {
@@ -101,9 +102,13 @@ export default function AboutPage() {
                 <div className="flex flex-col md:flex-row gap-6 items-center">
                   <div className="md:w-1/3">
                     <div className="relative w-48 h-48 md:w-full md:h-auto aspect-square rounded-lg overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-times8-purple/20 to-times8-purple/40 flex items-center justify-center">
-                        <span className="text-white font-medium">CEO Portrait</span>
-                      </div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-times8-purple/20 to-times8-purple/40 flex items-center justify-center">
+                        <svg className="w-24 h-24 text-times8-purple/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" 
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7zm-1-7v1h2V7h-2zm1 3a1 1 0 100 2 1 1 0 000-2z" />
+                        </svg>
+                        <span className="absolute bottom-4 text-white/70 font-medium">CEO Portrait</span>
+                        </div>
                     </div>
                   </div>
                   <div className="md:w-2/3">

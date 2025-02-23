@@ -168,7 +168,7 @@ textarea {
          rounded-md focus:outline-none focus:ring-2 focus:ring-times8-purple
          text-gray-900 dark:text-white 
          placeholder-gray-500 dark:placeholder-white/60
-         transition-all duration-200;
+         w-full transition-all duration-200;
 }
 
 /* Light mode specific enhancements */
@@ -195,6 +195,14 @@ input[type="password"]:focus,
 textarea:focus {
   @apply ring-2 ring-times8-purple ring-opacity-50 border-times8-purple;
   background-color: white;
+}
+
+/* Override background color when focused in dark mode */
+.dark input[type="email"]:focus,
+.dark input[type="text"]:focus,
+.dark input[type="password"]:focus,
+.dark textarea:focus {
+  @apply bg-white/10;
 }
 
 /* Base select styling */
