@@ -86,7 +86,7 @@ export default function ClubPage() {
               Join the <span className="bg-times8-purple px-2 pb-1 transform -rotate-1 inline-block">times8 Club</span>
             </h1>
             <p className="text-adaptive-secondary text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              Connect with like-minded professionals in NYC and build meaningful relationships through curated events and personalized networking.
+              Connect with builders, innovators and creators in Tech & AI in NYC and build meaningful relationships through curated events and personalized networking.
             </p>
           </div>
         </div>
@@ -294,7 +294,7 @@ export default function ClubPage() {
                 <div>
                   <label className="block text-adaptive-secondary mb-2">Which communities/topics/circles are you most interested in?*</label>
                   <div className="grid grid-cols-2 gap-2">
-                    {['Technology', 'Finance', 'Arts', 'Healthcare', 'Education', 'Marketing', 'Design', 'Entrepreneurship', 'Real Estate', 'Food & Beverage', 'Fashion', 'Entertainment', 'Non-Profit', 'Sustainability', 'Sports', 'Travel'].map((interest) => (
+                    {['Technology', 'Finance', 'Arts', 'Healthcare', 'Education', 'Marketing', 'Design', 'Entrepreneurship', 'Real Estate', 'Food & Beverage', 'Fashion', 'Entertainment', 'Artifical Intelligence', 'Sustainability', 'Sports', 'Travel'].map((interest) => (
                       <div key={interest} className="flex items-center">
                         <input 
                           type="checkbox" 
