@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: 'Join our exclusive NYC Club to build relationships and use our AI tool to find those connections you may miss otherwise!',
   icons: {
     // Standard favicon (can be .ico, .png, etc.)
-    icon: '/favicon.ico',
+    icon: '/favicon2.ico',
     // Apple touch icon
     apple: '/apple-touch-icon.png',
   }
