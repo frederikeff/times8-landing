@@ -112,15 +112,21 @@ export default function ConsultingPage() {
                   <p className="text-adaptive-secondary mb-4">
                     Schedule a free 15-minute discovery call to discuss your needs and how we can help.
                   </p>
-                  <AnimatedButton 
-                    variant="adaptive" 
-                    size="md" 
-                    animationType="glow"
-                    className="button-glow"
-                    onClick={() => window.open('https://calendar.app.google/XXKorKoNco8dRobe9', '_blank')}
+                  <a 
+                    href="https://calendar.app.google/jUf4FhtWhTY1Wett6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
                   >
-                    Schedule Call
-                  </AnimatedButton>
+                    <AnimatedButton 
+                      variant="adaptive" 
+                      size="md" 
+                      animationType="glow"
+                      className="button-glow"
+                    >
+                      Schedule Call
+                    </AnimatedButton>
+                  </a>
                 </div>
               </div>
               
